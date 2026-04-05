@@ -47,6 +47,8 @@ Frontend default URL: http://localhost:5173
 
 - Swagger UI: http://localhost:4000/api/docs
 - OpenAPI JSON: http://localhost:4000/api/openapi.json
+- Swagger UI (Render): https://financial-data-management.onrender.com/api/docs
+- OpenAPI JSON (Render): https://financial-data-management.onrender.com/api/openapi.json
 
 For protected endpoints, authorize in Swagger with:
 
@@ -121,10 +123,14 @@ For backend web service:
 - Start Command: `npm run start`
 - Environment Variable: `JWT_SECRET`
 
+Live backend URL:
+
+- `https://financial-data-management.onrender.com`
+
 Deployed docs URLs:
 
-- `https://<your-backend>.onrender.com/api/docs`
-- `https://<your-backend>.onrender.com/api/openapi.json`
+- `https://financial-data-management.onrender.com/api/docs`
+- `https://financial-data-management.onrender.com/api/openapi.json`
 
 ## Common API Troubleshooting
 
