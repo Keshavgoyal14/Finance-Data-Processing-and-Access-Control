@@ -90,10 +90,11 @@ export const openApiDocument = {
         properties: {
           name: { type: "string", minLength: 2, maxLength: 120 },
           email: { type: "string", format: "email" },
+          password: { type: "string", minLength: 8 },
           role: { type: "string", enum: ["viewer", "analyst", "admin"] },
           status: { type: "string", enum: ["active", "inactive"] },
         },
-        required: ["name", "email", "role"],
+        required: ["name", "email", "password", "role"],
       },
       UpdateUserRequest: {
         type: "object",

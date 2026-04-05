@@ -3,10 +3,12 @@ import { z } from "zod";
 import { db } from "../db";
 import { requireRole } from "../middleware/auth";
 import { validateBody } from "../middleware/validate";
+import { hashPassword } from "../services/password";
 
 const createUserSchema = z.object({
   name: z.string().min(2).max(120),
   email: z.string().email(),
+  password: z.string().min(8),
   role: z.enum(["viewer", "analyst", "admin"]),
   status: z.enum(["active", "inactive"]).optional(),
 });
@@ -47,16 +49,17 @@ usersRouter.get("/", (_req, res) => {
   res.json({ data: users });
 });
 
-usersRouter.post("/", validateBody(createUserSchema), (req, res) => {
+usersRouter.post("/", validateBody(createUserSchema), async (req, res) => {
   const now = new Date().toISOString();
-  const { name, email, role, status = "active" } = req.body;
+  const { name, email, password, role, status = "active" } = req.body;
+  const hashedPassword = await hashPassword(password);
 
   const result = db
     .prepare(
-      `INSERT INTO users (name, email, role, status, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?)`
+      `INSERT INTO users (name, email, password, role, status, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`
     )
-    .run(name, email, role, status, now, now);
+    .run(name, email, hashedPassword, role, status, now, now);
 
   const user = findUserById(Number(result.lastInsertRowid));
 
